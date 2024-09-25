@@ -21,6 +21,7 @@ public interface ConstantValue {
 	//Admin POM
 	
 	final static String LB_RECORDS="lb_Records";
-	final static String LB_NUMBEROFRECORDS="Ib_NumberOfRecords";
+	final static String LB_NUMBEROFRECORDS="Ib_NumberOfRecord"
+			+ "s";
 
 }

@@ -6,13 +6,13 @@ import java.util.Properties;
 public class ReadPropertiesFile {
 
 	Properties prop = new Properties();
-	String path = "";
+	String path;
 
 	public ReadPropertiesFile() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ReadPropertiesFile(String FilePath) {
+	public ReadPropertiesFile(String path) {
 		try {
 			this.path = path;
 			System.out.println(path);
