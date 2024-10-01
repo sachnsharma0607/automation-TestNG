@@ -30,23 +30,39 @@ public class WebElement implements ConstantValue {
 		}
 	}
 
-	public By getBy(String locator) {
+	private static By getBy(String locator) {
 		
 		if(locator.contains("xpath~"))
 		{
-			return By.xpath(locator.replaceAll("Xpath~", ""));
+			return By.xpath(locator.replaceAll("xpath~", ""));
 		}
 		else if(locator.contains("id~")) {
-			return  By.id(locator.replaceAll("Xpath~", ""));
+			return  By.id(locator.replaceAll("id~", ""));
 		}
-		
+		else if(locator.contains("name~")) {
+			return  By.name(locator.replaceAll("name~", ""));
+		}
+		else if(locator.contains("className~")) {
+			return  By.className(locator.replaceAll("className~", ""));
+		}
+		else if(locator.contains("linkText~")) {
+			return  By.linkText(locator.replaceAll("linkText~", ""));
+		}
+		else if(locator.contains("partialLinkText~")) {
+			return  By.partialLinkText(locator.replaceAll("partialLinkText~", ""));
+		}
+		else if(locator.contains("tagName~")) {
+			return  By.tagName(locator.replaceAll("tagName~", ""));
+		}
+		else if(locator.contains("cssSelector~")) {
+			return  By.cssSelector(locator.replaceAll("cssSelector~", ""));
+		}
 		return null;
 
 	}
 
 	public boolean clickToElement(String xpath) {
 		try {
-			//driver.get().findElement(By.xpath(xpath)).click();
 			driver.get().findElement(getBy(xpath)).click();
 			return true;
 		} catch (Exception e) {
@@ -57,7 +73,7 @@ public class WebElement implements ConstantValue {
 
 	public boolean enterToText(String xpath, String value) {
 		try {
-			driver.get().findElement(By.xpath(xpath)).sendKeys(value);
+			driver.get().findElement(getBy(xpath)).sendKeys(value);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -128,7 +144,8 @@ public class WebElement implements ConstantValue {
 
 	public boolean verifyElementIsPresent(String xpath) {
 		try {
-			if (!driver.get().findElements(By.xpath(xpath)).isEmpty())
+			//if (!driver.get().findElements(By.xpath(xpath)).isEmpty())
+			if (!driver.get().findElements(getBy(xpath)).isEmpty())
 				return true;
 			return false;
 		} catch (Exception e) {
