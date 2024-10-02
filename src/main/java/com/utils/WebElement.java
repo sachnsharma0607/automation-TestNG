@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ public class WebElement implements ConstantValue {
 		try {
 			Wait<WebDriver> wait = new FluentWait<WebDriver>(driver.get()).withTimeout(Duration.ofSeconds(120))
 					.pollingEvery(Duration.ofSeconds(10)).ignoring(Exception.class);
-			
+
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -31,31 +32,23 @@ public class WebElement implements ConstantValue {
 	}
 
 	private static By getBy(String locator) {
-		
-		if(locator.contains("xpath~"))
-		{
+
+		if (locator.contains("xpath~")) {
 			return By.xpath(locator.replaceAll("xpath~", ""));
-		}
-		else if(locator.contains("id~")) {
-			return  By.id(locator.replaceAll("id~", ""));
-		}
-		else if(locator.contains("name~")) {
-			return  By.name(locator.replaceAll("name~", ""));
-		}
-		else if(locator.contains("className~")) {
-			return  By.className(locator.replaceAll("className~", ""));
-		}
-		else if(locator.contains("linkText~")) {
-			return  By.linkText(locator.replaceAll("linkText~", ""));
-		}
-		else if(locator.contains("partialLinkText~")) {
-			return  By.partialLinkText(locator.replaceAll("partialLinkText~", ""));
-		}
-		else if(locator.contains("tagName~")) {
-			return  By.tagName(locator.replaceAll("tagName~", ""));
-		}
-		else if(locator.contains("cssSelector~")) {
-			return  By.cssSelector(locator.replaceAll("cssSelector~", ""));
+		} else if (locator.contains("id~")) {
+			return By.id(locator.replaceAll("id~", ""));
+		} else if (locator.contains("name~")) {
+			return By.name(locator.replaceAll("name~", ""));
+		} else if (locator.contains("className~")) {
+			return By.className(locator.replaceAll("className~", ""));
+		} else if (locator.contains("linkText~")) {
+			return By.linkText(locator.replaceAll("linkText~", ""));
+		} else if (locator.contains("partialLinkText~")) {
+			return By.partialLinkText(locator.replaceAll("partialLinkText~", ""));
+		} else if (locator.contains("tagName~")) {
+			return By.tagName(locator.replaceAll("tagName~", ""));
+		} else if (locator.contains("cssSelector~")) {
+			return By.cssSelector(locator.replaceAll("cssSelector~", ""));
 		}
 		return null;
 
@@ -144,7 +137,6 @@ public class WebElement implements ConstantValue {
 
 	public boolean verifyElementIsPresent(String xpath) {
 		try {
-			//if (!driver.get().findElements(By.xpath(xpath)).isEmpty())
 			if (!driver.get().findElements(getBy(xpath)).isEmpty())
 				return true;
 			return false;
@@ -153,4 +145,30 @@ public class WebElement implements ConstantValue {
 			return false;
 		}
 	}
+
+	public boolean clickToElementByJavaScript(String xpath) {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver.get();
+			js.executeScript("arguments[0].click();", driver.get().findElement(getBy(xpath)));
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return false;
+	}
+
+	public boolean scrollintoView(String xpath) {
+		try {
+			JavascriptExecutor js = (JavascriptExecutor) driver.get();
+			js.executeScript("arguments[0].scrollIntoViewIfNeeded(true);", driver.get().findElement(getBy(xpath)));
+
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return false;
+	}
+
 }
