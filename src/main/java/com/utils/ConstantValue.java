@@ -3,7 +3,7 @@ package com.utils;
 import java.io.File;
 
 public interface ConstantValue {
-	final String pathSeparator = File.separator;
+	final static String pathSeparator = File.separator;
 	
 	//login in Constant
 	final static String txt_login="txt_login";
@@ -21,7 +21,8 @@ public interface ConstantValue {
 	//Admin POM
 	
 	final static String LB_RECORDS="lb_Records";
-	final static String LB_NUMBEROFRECORDS="Ib_NumberOfRecord"
-			+ "s";
+	final static String LB_NUMBEROFRECORDS="Ib_NumberOfRecord";
+	final static String FOLDER_PATH = System.getProperty("user.dir") +pathSeparator + "Reports";
+			
 
 }
