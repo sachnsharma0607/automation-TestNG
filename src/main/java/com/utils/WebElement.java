@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 public class WebElement implements ConstantValue {
 
-	protected ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	public ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 	public ThreadLocal<Integer> noOfRecords = new ThreadLocal<Integer>();
 
 	public boolean visibilityofElement(String xpath) {
@@ -90,7 +90,7 @@ public class WebElement implements ConstantValue {
 		try {
 			driver.get().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 			visibilityofElement(xpath);
-			if (driver.get().findElement(By.xpath(xpath)).getText().equalsIgnoreCase(value))
+			if (driver.get().findElement(getBy(xpath)).getText().equalsIgnoreCase(value))
 				return true;
 			return false;
 		} catch (Exception e) {
