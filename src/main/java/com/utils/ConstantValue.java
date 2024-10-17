@@ -22,7 +22,8 @@ public interface ConstantValue {
 	
 	final static String LB_RECORDS="lb_Records";
 	final static String LB_NUMBEROFRECORDS="Ib_NumberOfRecord";
-	final static String FOLDER_PATH = System.getProperty("user.dir") +pathSeparator + "Reports";
+	final static String PATH_REPORT_FOLDER = System.getProperty("user.dir") +pathSeparator + "Reports";
+	final static String PATH_SCREENSHOT_FOLDER= System.getProperty("user.dir") +pathSeparator + "Screenshot";
 			
 
 }
