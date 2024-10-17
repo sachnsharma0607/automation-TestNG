@@ -4,6 +4,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
+import org.openqa.selenium.WebDriver;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -11,7 +13,7 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class Reports implements ConstantValue {
 
-	private final String filepath = FOLDER_PATH + pathSeparator + "Report_" + new DateFormate().toString() + ".html";
+	private final String filepath = PATH_REPORT_FOLDER + pathSeparator + "Report_" + new DateFormate().toString() + ".html";
 	ThreadLocal<ExtentReports> extentRepor=new ThreadLocal<>();
 	ThreadLocal<ExtentSparkReporter> extentSparkReporter = 
 			new ThreadLocal<ExtentSparkReporter>();
@@ -42,8 +44,14 @@ public class Reports implements ConstantValue {
 				
 	}
 
+	public void createTest(String testCaseName,String description) {
+		eTest.set(extentRepor.get().createTest(testCaseName,description));
+		
+				
+	}
+
 	public static void deleteDirectory() {
-		new FileUtils().deleteDirectory(new File(FOLDER_PATH));
+		new FileUtils().deleteDirectory(new File(PATH_REPORT_FOLDER));
 	}
 
 	public void info(String StepDescription, String expectedResult) {
@@ -56,6 +64,15 @@ public class Reports implements ConstantValue {
 	public void pass(String StepDescription, String expectedResult) {
 		// eTest.pass(expectedResult);
 		eTest.get().log(Status.PASS, "<b>" + StepDescription+" : </b>"+ expectedResult  );
+		//eTest.get().addScreenCaptureFromPath(new ScreenShot().takescreennShot().toString(),"");
+
+
+	}
+
+	public void pass(String StepDescription, String expectedResult,WebDriver driver) {
+		// eTest.pass(expectedResult);
+		eTest.get().log(Status.PASS, "<b>" + StepDescription+" : </b>"+ expectedResult  );
+		eTest.get().addScreenCaptureFromBase64String(new ScreenShot().takescreennShot(driver));
 
 
 	}
@@ -64,6 +81,7 @@ public class Reports implements ConstantValue {
 		createTest(StepDescription);
 		// eTest.pass(expectedResult);
 		eTest.get().log(Status.WARNING,  "<b>" + StepDescription+" : </b>"+ expectedResult  );
+		
 
 	}
 
@@ -81,5 +99,14 @@ public class Reports implements ConstantValue {
 		eTest.get().log(Status.SKIP,  "<b>" + StepDescription+" : </b>"+ expectedResult  );
 
 	}
+	
+	public void fail(Exception exception) {
+		//createTest(StepDescription);
+		 eTest.get().fail(exception);
+		//eTest.get().log(Status.FAIL, "<b>" + StepDescription+" : </b>"+ expectedResult  );
+
+
+	}
+
 
 }
